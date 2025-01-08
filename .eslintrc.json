@@ -1,3 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "off", // Or "off" if you want to disable it
+      {
+        "vars": "all", // Check all variables
+        "args": "after-used", // Ignore unused arguments if they appear after used ones
+        "ignoreRestSiblings": true // Ignore unused variables in object destructuring
+      }
+    ],
+    "@typescript-eslint/no-unused-expressions": "off" // Change "warn" to "off" if you want to disable it
+  }
 }
