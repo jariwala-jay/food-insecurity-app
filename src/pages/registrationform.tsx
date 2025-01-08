@@ -1,14 +1,15 @@
 // src/pages/index.tsx
 import React from 'react';
 import RegistrationForm from '../components/RegistrationForm';
-import LoginForm from '../components/LoginForm';
 
-const Home = () => {
+
+const Registration = () => {
   return (
-    <div>
-      <LoginForm />
+    <div >
+
+      <RegistrationForm  />
     </div>
   );
 };
 
-export default Home;
+export default Registration;
