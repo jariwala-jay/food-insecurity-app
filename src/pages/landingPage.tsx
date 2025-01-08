@@ -46,21 +46,21 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Input Your Ingredients",
-                  description: "Tell us what you have in your pantry.",
-                  image: "/placeholder.svg?height=200&width=200",
-                },
-                {
                   title: "Set Your Preferences",
                   description:
                     "Let us know about your dietary needs and health conditions.",
-                  image: "/placeholder.svg?height=200&width=200",
+                  image: "/preference.png",
+                },
+                {
+                  title: "Input Your Ingredients",
+                  description: "Tell us what you have in your pantry.",
+                  image: "/ingredients.png",
                 },
                 {
                   title: "Get Personalized Recipes",
                   description:
                     "Receive tailored recipe recommendations that make the most of your ingredients.",
-                  image: "/placeholder.svg?height=200&width=200",
+                  image: "/recipe.png",
                 },
               ].map((item, index) => (
                 <motion.div
