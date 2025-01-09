@@ -41,10 +41,11 @@ const RegistrationForm = () => {
 
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  
 
   const handleMultiSelectChange = (e: React.ChangeEvent<{ value: unknown }>, name: string) => {
     const value = e.target.value as string[];
@@ -209,7 +210,7 @@ const RegistrationForm = () => {
                   <Select
                     name="gender"
                     value={formData.gender}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     fullWidth
                   >
                     <MenuItem value="">Select Gender</MenuItem>
