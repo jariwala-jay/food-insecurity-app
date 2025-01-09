@@ -1,6 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
-
 
 export default function Header() {
   return (
@@ -8,7 +6,7 @@ export default function Header() {
       <nav className="container mx-auto px-4 py-1 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold text-[#f9a157]">
           {/* Food Precision Rx */}
-          <Image alt="logo" src="food-rx-logo.png" className="max-w-[400px] w-[80%]"/>
+          <img src="food-rx-logo.png" className="max-w-[400px] w-[80%]"/>
         </Link>
         <div className="space-x-4">
           <Link
