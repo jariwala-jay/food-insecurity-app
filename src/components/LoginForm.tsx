@@ -51,7 +51,8 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold text-center mb-6">Food Precision Rx</h2>
+        {/* <h2 className="text-2xl font-bold text-center mb-6">Food Precision Rx</h2> */}
+        <img src='food-rx-logo.png' className='pb-4'></img>
         <input
           name="email"
           type="email"
@@ -71,7 +72,7 @@ const LoginForm = () => {
         )}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200 mb-4"
+          className="w-full bg-[#f9a157] text-white px-4 py-2 rounded hover:bg-[#fbcb66] transition duration-300 mb-4"
         >
           Login
         </button>

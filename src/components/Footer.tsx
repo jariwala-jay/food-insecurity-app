@@ -6,7 +6,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Food Precision Rx</h3>
             <p className="text-sm">
-              Personalized nutrition solutions for food pantry users.
+            Get Personalized Recipe Recommendations 
             </p>
           </div>
           <div>
