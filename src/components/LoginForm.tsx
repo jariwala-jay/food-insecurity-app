@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
+import Image from "next/image";
+
 
 const LoginForm = () => {
   const { login } = useAuth();
@@ -52,7 +54,7 @@ const LoginForm = () => {
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
       >
         {/* <h2 className="text-2xl font-bold text-center mb-6">Food Precision Rx</h2> */}
-        <img src='food-rx-logo.png' className='pb-4'></img>
+        <Image src='food-rx-logo.png' alt='logo' className='pb-4'/>
         <input
           name="email"
           type="email"
