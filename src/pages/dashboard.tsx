@@ -22,8 +22,16 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import FastfoodOutlinedIcon from "@mui/icons-material/FastfoodOutlined";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Image from "next/image";
-import { Box, CircularProgress } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Box,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import CalorieIntake from "@/components/CalorieIntake";
 import RecommendedMenu from "@/components/RecommendedMenu";
 
@@ -340,182 +348,62 @@ const Dashboard: React.FC = () => {
         } transition-transform duration-300 ease-in-out w-64 bg-white p-6 lg:relative`}
       >
         <div className="flex items-center justify-center mb-8">
-          <Image
-            src="/logo-transperant.png"
-            alt="RoomieHub logo"
-            className="lg:block hidden"
-            width={300}
-            height={30}
-          />
-          <button onClick={() => setSidebarOpen(false)} className="lg:hidden">
-            <CloseIcon className="h-6 w-6 text-black" />
-          </button>
-        </div>
-        <nav className="h-[82vh] relative">
-          <ul className="space-y-2">
-            <li
-              className={`flex items-center space-x-2 p-2 pl-4 rounded-md  cursor-pointer ${
-                activeSection === "home"
-                  ? "font-semibold bg-[#c3e66e]  "
-                  : "hover:bg-gray-200"
-              }`}
-              onClick={() => handleSectionClick("home")}
-            >
-              <span className="mr-2">
-                {activeSection === "home" ? (
-                  <HomeIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                ) : (
-                  <HomeOutlinedIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                )}
-              </span>
-              <span
-                className={`text-[#333231] text-base ${
-                  activeSection === "home" ? "font-semibold" : "font-medium"
-                }`}
-              >
-                Home
-              </span>
-            </li>
-            <li
-              className={`flex items-center space-x-2 p-2 pl-4 rounded-md  cursor-pointer ${
-                activeSection === "manageInventory"
-                  ? "font-semibold bg-[#c3e66e]  "
-                  : "hover:bg-gray-200"
-              }`}
-              onClick={() => handleSectionClick("manageInventory")}
-            >
-              <span className="mr-2">
-                {activeSection === "manageInventory" ? (
-                  <LocalGroceryStoreIcon
-                    sx={{ fontSize: 25, fontWeight: "bold" }}
-                    className="text-[#333231] text-xl"
-                  />
-                ) : (
-                  <LocalGroceryStoreOutlinedIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                )}
-              </span>
-              <span
-                className={`text-[#333231] text-base ${
-                  activeSection === "manageInventory"
-                    ? "font-semibold"
-                    : "font-medium"
-                }`}
-              >
-                Inventory
-              </span>
-            </li>
-            <li
-              className={`flex items-center space-x-2 p-2 rounded-md pl-4 cursor-pointer ${
-                activeSection === "profile"
-                  ? "font-semibold bg-[#c3e66e]  "
-                  : "hover:bg-gray-200"
-              }`}
-              onClick={() => handleSectionClick("profile")}
-            >
-              <span className="mr-2">
-                {activeSection === "profile" ? (
-                  <PersonIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                ) : (
-                  <PersonOutlineOutlinedIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                )}
-              </span>
-              <span
-                className={`text-[#333231] text-base ${
-                  activeSection === "profile" ? "font-semibold" : "font-medium"
-                }`}
-              >
-                Profile
-              </span>
-            </li>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              backgroundColor: "#f9f9f9",
+              borderRadius: "16px",
+              padding: 2,
+              paddingBlock: 1,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              maxWidth: 400,
+              width: "100%",
+            }}
+          >
+            {/* User Info */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Avatar
+                alt="Adam Vasylenko"
+                src="https://via.placeholder.com/150" // Replace with actual image URL
+                sx={{ width: 30, height: 30, backgroundColor: "#FFECB3" }}
+              />
+              <Box>
+                <Typography variant="subtitle1" fontWeight="bold" fontSize={10}>
+                  Adam Vasylenko
+                </Typography>
+                <Typography variant="body2" color="textSecondary" fontSize={8}>
+                  Member
+                </Typography>
+              </Box>
+            </Box>
 
-            <li
-              className={`flex items-center space-x-2 p-2 rounded-md pl-4  cursor-pointer ${
-                activeSection === "chat"
-                  ? "font-semibold bg-[#c3e66e]  "
-                  : "hover:bg-gray-200"
-              }`}
-              onClick={() => handleSectionClick("chat")}
+            {/* Notification Icon */}
+            <IconButton
+              sx={{
+                backgroundColor: "#FFFAF0",
+                borderRadius: "12px",
+                padding: "8px",
+                "&:hover": { backgroundColor: "#FFE8C0" },
+              }}
             >
-              <span className="mr-2">
-                {activeSection === "chat" ? (
-                  <InsertChartIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                ) : (
-                  <InsertChartOutlinedIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                )}
-              </span>
-              <span
-                className={`text-[#333231] text-base ${
-                  activeSection === "chat" ? "font-semibold" : "font-medium"
-                }`}
+              <Badge
+                variant="dot"
+                color="error"
+                overlap="circular"
+                sx={{
+                  "& .MuiBadge-dot": {
+                    width: 10,
+                    height: 10,
+                  },
+                }}
               >
-                Progress
-              </span>
-            </li>
-            <li
-              className={`flex items-center space-x-2 p-2  rounded-xl pl-4  cursor-pointer ${
-                activeSection === "settings"
-                  ? "font-semibold bg-[#c3e66e] "
-                  : "hover:bg-gray-200"
-              }`}
-              onClick={() => handleSectionClick("settings")}
-            >
-              <span className="mr-2">
-                {activeSection === "settings" ? (
-                  <FastfoodIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                ) : (
-                  <FastfoodOutlinedIcon
-                    sx={{ fontSize: 25 }}
-                    className="text-[#333231] text-xl"
-                  />
-                )}
-              </span>
-              <span
-                className={`text-[#333231] text-base ${
-                  activeSection === "settings" ? "font-semibold" : "font-medium"
-                }`}
-              >
-                Food Diary
-              </span>
-            </li>
-            <li
-              className="flex absolute bottom-5 items-center space-x-2 w-full rounded-md cursor-pointer"
-              onClick={handleLogout}
-            >
-              <div className="flex items-center justify-center w-full py-2 bg-[#f9a157] transition-colors duration-300 text-white rounded-xl">
-                <span>
-                  <LogoutIconM className="text-white" />
-                </span>
-                <span className="text-[#ffffff] text-center font-semibold text-xl">
-                  Logout
-                </span>
-              </div>
-            </li>
-          </ul>
-        </nav>
+                <NotificationsActiveIcon sx={{ color: "#555" }} />
+              </Badge>
+            </IconButton>
+          </Box>
+        </div>
       </aside>
     </div>
   );
