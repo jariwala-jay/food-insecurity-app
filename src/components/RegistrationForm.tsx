@@ -94,7 +94,7 @@ const RegistrationForm = () => {
     try {
       await axios.post('/api/register', formData);
       // Handle success (e.g., redirect to login or dashboard)
-      router.push('/loginform'); // Redirect to dashboard
+      router.push('/login'); // Redirect to dashboard
     } catch (error) {
       console.error('Error during registration:', error);
     }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { Plus, Edit, Trash2, Search } from 'lucide-react'
+import { Plus, Edit, Trash2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,19 +13,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-interface FoodItem {
-  id: string
-  item: string
-  quantity: string
-  expiry: string
-  type: "pantry" | "other"
-  unit?: string;
-}
 
 const initialNutrientState = {
   calories: 0,
@@ -37,7 +27,7 @@ const initialNutrientState = {
 
 export default function ManageInventory() {
   const [inventory, setInventory] = useState<FoodItem[]>([])
-  const [newItem, setNewItem] = useState<Omit<FoodItem, "id">>({
+  const [newItem, setNewItem] = useState<Omit<FoodItem, "_id">>({
     item: "",
     quantity: "",
     unit: "",
@@ -49,41 +39,115 @@ export default function ManageInventory() {
   const [editSuggestions, setEditSuggestions] = useState([])
   const [pantryNutrients, setPantryNutrients] = useState(initialNutrientState)
   const [isEditing, setIsEditing] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const userId = localStorage.getItem('userId')
 
-  const addItem = () => {
-    if (newItem.item && newItem.quantity) {
-      setInventory([...inventory, { ...newItem, id: Date.now().toString() }])
-      setNewItem({ item: "", quantity: "", unit: "", expiry: "", type: "pantry" })
-    }
-  }
-
-  const updateItem = () => {
-    if (editingItem) {
-      setInventory(inventory.map(item => item.id === editingItem.id ? editingItem : item))
-      setEditingItem(null)
-      setIsEditing(false)
-    }
-  }
-
-  const removeItem = (id: string) => {
-    setInventory(inventory.filter(item => item.id !== id))
-  }
-
-  const fetchNutrientData = async (fdcId) => {
+  const getInventory = async () => {
     try {
-      const response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=dSxE2sOG0hgx5jgXvNkn6rrGKVMvnlsOl1A1Ro2q`)
-      return {
-        calories: response.data.foodNutrients.find(nutrient => nutrient.name === "Energy")?.amount || 0,
-        carbs: response.data.foodNutrients.find(nutrient => nutrient.name === "Carbohydrate, by difference")?.amount || 0,
-        protein: response.data.foodNutrients.find(nutrient => nutrient.name === "Protein")?.amount || 0,
-        fat: response.data.foodNutrients.find(nutrient => nutrient.name === "Total lipid (fat)")?.amount || 0,
-        fiber: response.data.foodNutrients.find(nutrient => nutrient.name === "Fiber, total dietary")?.amount || 0,
-      }
+      setIsLoading(true)
+      const response = await axios.get(`/api/inventory?userId=${userId}`)
+      console.log('Received inventory:', response.data)
+      setInventory(response.data?.items || [])
+
+
     } catch (error) {
-      console.error("Error fetching nutrient data:", error)
-      return null
+      console.error("Error fetching inventory:", error)
+    } finally {
+      setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (userId) {
+      getInventory()
+    }
+  }, [userId])
+
+  const addItem = async () => {
+    if (newItem.item && newItem.quantity && newItem.unit && newItem.expiry && newItem.type) {
+      try {
+        setIsLoading(true)
+        const response = await axios.post(`/api/inventory?userId=${userId}`, newItem)
+        console.log('Add item response:', response.data)
+        setInventory(response.data.items || [])
+        setNewItem({ item: '', quantity: '', unit: '', expiry: '', type: 'pantry' })
+      } catch (error) {
+        console.error("Error adding item:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+  }
+
+  const updateItem = async () => {
+    if (editingItem?._id) {
+      try {
+        setIsLoading(true)
+        console.log('Updating item:', editingItem)
+        const response = await axios.put(`/api/inventory?userId=${userId}`, {
+          itemId: editingItem._id,
+          ...editingItem,
+        })
+        console.log('Update response:', response.data)
+
+        // Update inventory with the response from the server
+        setInventory(prevInventory => 
+          prevInventory.map(item =>
+            item._id === editingItem._id ? { ...item, ...editingItem } : item
+          )
+        )
+        setEditingItem(null)
+        setIsEditing(false)
+      } catch (error) {
+        console.error("Error updating item:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+  };
+
+
+  const removeItem = async (itemId: string) => {
+    try {
+      setIsLoading(true)
+      console.log('Removing item:', { userId, itemId })
+      const response = await axios.delete(`/api/inventory?userId=${userId}`, {
+        data: { itemId }
+      })
+      console.log('Delete response:', response.data)
+      setInventory(response.data.items || [])
+    } catch (error) {
+      console.error("Error removing item:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  interface FoodItem {
+    _id: string
+    item: string
+    quantity: string
+    expiry: string
+    type: "pantry" | "other"
+    unit: string
+  }
+  
+  
+
+  // const fetchNutrientData = async (fdcId) => {
+  //   try {
+  //     const response = await axios.get(`https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=dSxE2sOG0hgx5jgXvNkn6rrGKVMvnlsOl1A1Ro2q`)
+  //     return {
+  //       calories: response.data.foodNutrients.find(nutrient => nutrient.name === "Energy")?.amount || 0,
+  //       carbs: response.data.foodNutrients.find(nutrient => nutrient.name === "Carbohydrate, by difference")?.amount || 0,
+  //       protein: response.data.foodNutrients.find(nutrient => nutrient.name === "Protein")?.amount || 0,
+  //       fat: response.data.foodNutrients.find(nutrient => nutrient.name === "Total lipid (fat)")?.amount || 0,
+  //       fiber: response.data.foodNutrients.find(nutrient => nutrient.name === "Fiber, total dietary")?.amount || 0,
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching nutrient data:", error)
+  //     return null
+  //   }
+  // }
 
   const fetchSuggestions = async (searchTerm, isEdit = false) => {
     if (!searchTerm) {
@@ -138,7 +202,7 @@ export default function ManageInventory() {
 
   const saveEdit = () => {
     if (editingItem) {
-      setInventory(inventory.map(item => item.id === editingItem.id ? editingItem : item))
+      setInventory(inventory.map(item => item._id === editingItem._id ? editingItem : item))
       setIsEditing(false)
       setEditingItem(null)
     }
@@ -201,11 +265,13 @@ export default function ManageInventory() {
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="g">Grams (g)</SelectItem>
-                  <SelectItem value="kg">Kilograms (kg)</SelectItem>
-                  <SelectItem value="ml">Milliliters (ml)</SelectItem>
-                  <SelectItem value="l">Liters (l)</SelectItem>
-                  <SelectItem value="pcs">Pieces</SelectItem>
+                      <SelectItem value="oz">Ounces (Oz)</SelectItem>
+                      <SelectItem value="lb">Pound (lb)</SelectItem>
+                      <SelectItem value="g">Grams (g)</SelectItem>
+                      <SelectItem value="kg">Kilograms (kg)</SelectItem>
+                      <SelectItem value="ml">Milliliters (ml)</SelectItem>
+                      <SelectItem value="l">Liters (l)</SelectItem>
+                      <SelectItem value="pcs">Pieces</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -234,7 +300,7 @@ export default function ManageInventory() {
                 </div>
               </RadioGroup>
             </div>
-            <Button className="col-span-2" type="submit">
+            <Button className="col-span-2 bg-[#f9a156] hover:bg-[#fbcb66]" type="submit">
               <Plus className="mr-2 h-4 w-4" /> Add Item
             </Button>
           </form>
@@ -248,14 +314,14 @@ export default function ManageInventory() {
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[400px] pr-4">
-              {inventory
+              {inventory?
                 .filter((item) => item.type === "pantry")
                 .map((item) => (
                   <InventoryItem
-                    key={item.id}
+                    key={item._id}
                     item={item}
                     onEdit={() => startEditing(item)}
-                    onDelete={() => removeItem(item.id)}
+                    onDelete={() => removeItem(item._id)}
                   />
                 ))}
             </ScrollArea>
@@ -268,14 +334,14 @@ export default function ManageInventory() {
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[400px] pr-4">
-              {inventory
+              {inventory?
                 .filter((item) => item.type === "other")
                 .map((item) => (
                   <InventoryItem
-                    key={item.id}
+                    key={item._id}
                     item={item}
                     onEdit={() => startEditing(item)}
-                    onDelete={() => removeItem(item.id)}
+                    onDelete={() => removeItem(item._id)}
                   />
                 ))}
             </ScrollArea>
@@ -283,35 +349,7 @@ export default function ManageInventory() {
         </Card>
       </div>
 
-      <Card className="mt-8">
-        <CardHeader>
-          <CardTitle>Nutrient Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div>
-              <p className="font-semibold">Calories</p>
-              <p>{pantryNutrients.calories.toFixed(2)}g / 2000g</p>
-            </div>
-            <div>
-              <p className="font-semibold">Carbs</p>
-              <p>{pantryNutrients.carbs.toFixed(2)}g / 300g</p>
-            </div>
-            <div>
-              <p className="font-semibold">Protein</p>
-              <p>{pantryNutrients.protein.toFixed(2)}g / 50g</p>
-            </div>
-            <div>
-              <p className="font-semibold">Fat</p>
-              <p>{pantryNutrients.fat.toFixed(2)}g / 70g</p>
-            </div>
-            <div>
-              <p className="font-semibold">Fiber</p>
-              <p>{pantryNutrients.fiber.toFixed(2)}g / 25g</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      
 
       <Dialog open={isEditing} onOpenChange={setIsEditing}>
         <DialogContent>
@@ -319,7 +357,7 @@ export default function ManageInventory() {
             <DialogTitle>Edit Item</DialogTitle>
           </DialogHeader>
           {editingItem && (
-            <form onSubmit={(e) => { e.preventDefault(); saveEdit(); }} className="space-y-4">
+            <form onSubmit={(e) => { e.preventDefault(); saveEdit(); updateItem();}} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="edit-name">Item Name</Label>
                 <div className="relative">
@@ -366,6 +404,8 @@ export default function ManageInventory() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="oz">Ounces (Oz)</SelectItem>
+                      <SelectItem value="lb">Pound (lb)</SelectItem>
                       <SelectItem value="g">Grams (g)</SelectItem>
                       <SelectItem value="kg">Kilograms (kg)</SelectItem>
                       <SelectItem value="ml">Milliliters (ml)</SelectItem>
@@ -380,7 +420,7 @@ export default function ManageInventory() {
                 <Input
                   id="edit-expiry"
                   type="date"
-                  value={editingItem.expiry}
+                  value={new Date(editingItem.expiry).toISOString().split('T')[0]}
                   onChange={(e) => setEditingItem({ ...editingItem, expiry: e.target.value })}
                 />
               </div>
@@ -409,7 +449,16 @@ export default function ManageInventory() {
   )
 }
 
-function InventoryItem({ item, onEdit, onDelete }: { item: FoodItem; onEdit: () => void; onDelete: () => void }) {
+function InventoryItem({ 
+  item, 
+  onEdit, 
+  onDelete 
+}: { 
+  item: FoodItem
+  onEdit: () => void
+  onDelete: () => void 
+}) {
+
   return (
     <div className="flex items-center justify-between p-2 mb-2 bg-secondary rounded-lg">
       <div>
@@ -418,18 +467,24 @@ function InventoryItem({ item, onEdit, onDelete }: { item: FoodItem; onEdit: () 
           Quantity: {item.quantity} {item.unit}
         </p>
         <p className="text-sm text-muted-foreground">
-          Expiry: {item.expiry}
+          Expiry: {new Date(item.expiry).toLocaleDateString()}
         </p>
       </div>
       <div className="flex space-x-2">
         <Button variant="ghost" size="icon" onClick={onEdit}>
           <Edit className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon" onClick={onDelete}>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={() => {
+            console.log('Delete clicked for item:', item)
+            onDelete()
+          }}
+        >
           <Trash2 className="h-4 w-4" />
         </Button>
       </div>
     </div>
   )
 }
-

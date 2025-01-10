@@ -22,8 +22,8 @@ export default function Header() {
             Contact
           </Link>
           <Link
-            href="/loginform"
-            className="bg-[#f9a157] text-white px-4 py-2 rounded hover:bg-[#fbcb66] transition duration-300"
+            href="/login"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
           >
             Login
           </Link>
