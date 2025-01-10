@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import { UserCircleIcon, CogIcon, LogoutIcon } from '@heroicons/react/solid';
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
-import SearchIcon from "@mui/icons-material/Search";
-import ChatIcon from "@mui/icons-material/Chat";
-import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIconM from "@mui/icons-material/Logout";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import CloseIcon from '@mui/icons-material/Close';
 import Profile from '@/pages/profile';
 import Inventory from '@/pages/inventory-management';
+import FoodDiary from '@/pages/recipeCreator';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
@@ -23,16 +16,16 @@ import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 
+
 const Dashboard: React.FC = () => {
   const router = useRouter();
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [loading, setLoading] = useState(true); // Loading state to prevent premature redirection
-  const [error, setError] = useState('');
+  
   const [section, setSection] = useState('home'); // Section state to switch between sections
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
-  const [currentUser, setCurrentUser] = useState(null);
+  
   const [activeSection, setActiveSection] = useState("home");
-  const [activeTab, setActiveTab] = useState('preferences'); // State for active tab
 
   useEffect(() => {
     // Check if authToken exists in localStorage
@@ -288,12 +281,12 @@ const Dashboard: React.FC = () => {
               </li>
               <li
                 className={`flex items-center space-x-2 p-2  rounded-xl pl-4  cursor-pointer ${
-                  activeSection === "settings" ? "font-semibold bg-[#c3e66e] " : "hover:bg-gray-200"
+                  activeSection === "foodDiary" ? "font-semibold bg-[#c3e66e] " : "hover:bg-gray-200"
                 }`}
-                onClick={() => handleSectionClick("settings")}
+                onClick={() => handleSectionClick("foodDiary")}
               >
                 <span>
-                  {activeSection === "settings" ? (
+                  {activeSection === "foodDiary" ? (
                     <FastfoodIcon
                       sx={{ fontSize: 30 }}
                       className="text-[#333231] text-xl"
@@ -307,7 +300,7 @@ const Dashboard: React.FC = () => {
                 </span>
                 <span
                   className={`text-[#333231] text-xl ${
-                    activeSection === "settings"
+                    activeSection === "foodDiary"
                       ? "font-semibold"
                       : "font-medium"
                   }`}
@@ -365,6 +358,9 @@ const Dashboard: React.FC = () => {
       )}
       {section==='manageInventory' && (
         <Inventory/>
+      )}
+      {section==='foodDiary' && (
+        <FoodDiary/>
       )}
     </div>
     </div>
