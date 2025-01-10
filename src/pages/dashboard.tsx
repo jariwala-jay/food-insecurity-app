@@ -99,7 +99,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="flex relative  h-full min-h-screen bg-[#f9f4f1]">
+    <div className="flex relative min-h-screen bg-[#f9f4f1]">
       {/* Header 
       <header className="bg-blue-600 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
@@ -155,7 +155,7 @@ const Dashboard: React.FC = () => {
       
       {/* Side Bar */}
       <aside
-          className={`fixed z-50  inset-y-0 border-r-2 border-gray-200  left-0 transform ${
+          className={`fixed top-0 z-50 inset-y-0 border-r-2 border-gray-200  left-0 transform ${
             sidebarOpen
               ? "translate-x-0"
               : "-translate-x-full lg:translate-x-0 lg:static"
@@ -333,7 +333,7 @@ const Dashboard: React.FC = () => {
         </aside>
 
       {/* Main Content */}
-      <div className="flex-1 items-center md:p-6 md:pl-0  md:pt-0 lg:mt-0 mt-[3.4rem]">
+      <div className="flex-1 items-center md:p-6 md:pl-0  md:pt-0 lg:mt-0 mt-[3.4rem] overflow-y-auto bg-[#f9f4f1]">
         {section==="home" && (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <h2 className="text-2xl font-semibold text-gray-800">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+
 interface User {
   name: string;
   email: string;
@@ -64,24 +65,13 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-blue-600 text-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
-          <h1 className="text-2xl font-bold">Profile</h1>
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="bg-white text-blue-600 px-4 py-2 rounded-lg shadow-md font-semibold hover:bg-gray-100"
-          >
-            Back to Dashboard
-          </button>
-        </div>
-      </header>
+    <div className="container mx-auto p-4 max-w-4xl">
 
       {/* Profile Details */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your Profile</h2>
+      <h1 className="text-3xl font-bold mb-6">Profile</h1>
+      
+        <div className="bg-white shadow-md rounded-lg p-6 border-1">
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Name and Email */}
             <div>
@@ -162,7 +152,7 @@ const Profile: React.FC = () => {
             </div>
           </div>
         </div>
-      </main>
+
     </div>
   );
 };
