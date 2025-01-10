@@ -8,10 +8,11 @@ import Link from "next/link";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#f9f4f1]">
       <Header />
       <main className="flex-grow">
-        <section className="bg-gradient-to-b from-blue-100 to-white py-20">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-b from-[#fdcaab] to-transperant py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -19,17 +20,17 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
               className="text-center"
             >
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+              <h1 className="text-4xl md:text-6xl font-bold text-[#333333] mb-6">
                 Food Precision Rx
               </h1>
-              <p className="text-xl md:text-2xl text-gray-600 mb-8">
-                Personalized Recipe Recommendations for Food Pantry Users
+              <p className="text-xl md:text-2xl text-[#555555] mb-8">
+                Get Personalized Recipe Recommendations 
               </p>
               <Link href="/registrationform">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-500 text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-blue-600 transition duration-300"
+                  className="bg-[#c3e66e] text-white font-semibold py-3 px-8 hover:bg-[#bce361] hover:shadow-lg rounded-full text-lg shadow-md transition duration-300"
                 >
                   Get Started
                 </motion.button>
@@ -38,9 +39,10 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* How It Works Section */}
         <section className="py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#333333] mb-12">
               How It Works
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -68,7 +70,7 @@ export default function LandingPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
-                  className="bg-white rounded-lg shadow-lg p-6 text-center"
+                  className="bg-[#fffaf3] border border-[#fdcaab] rounded-lg shadow-lg p-6 text-center"
                 >
                   <Image
                     src={item.image}
@@ -77,17 +79,20 @@ export default function LandingPage() {
                     height={200}
                     className="mx-auto mb-4"
                   />
-                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-gray-600">{item.description}</p>
+                  <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                    {item.title}
+                  </h3>
+                  <p className="text-[#555555]">{item.description}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-blue-50 py-20">
+        {/* Why Choose Us Section */}
+        <section className="py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#333333] mb-12">
               Why Choose Food Precision Rx?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -102,10 +107,10 @@ export default function LandingPage() {
                   initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex items-center bg-white rounded-lg shadow p-6"
+                  className="flex items-center bg-[#fffaf3] border border-[#fdcaab] rounded-lg shadow p-6"
                 >
                   <div className="flex-shrink-0 mr-4">
-                    <div className="bg-blue-500 rounded-full p-3">
+                    <div className="bg-[#c3e66e] rounded-full p-3">
                       <svg
                         className="w-6 h-6 text-white"
                         fill="none"
@@ -122,7 +127,7 @@ export default function LandingPage() {
                       </svg>
                     </div>
                   </div>
-                  <p className="text-gray-700">{feature}</p>
+                  <p className="text-[#555555]">{feature}</p>
                 </motion.div>
               ))}
             </div>

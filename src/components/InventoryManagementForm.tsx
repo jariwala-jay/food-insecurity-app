@@ -110,7 +110,7 @@ export default function InventoryManagementForm({
       >
         <List>
           {suggestions.map((food) => (
-            <ListItem button key={food.fdcId} onClick={() => handleSelectSuggestion(food)}>
+            <ListItem component="button" key={food.fdcId} onClick={() => handleSelectSuggestion(food)}>
               <ListItemText primary={food.item} />
             </ListItem>
           ))}
