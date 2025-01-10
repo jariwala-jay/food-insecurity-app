@@ -20,7 +20,7 @@ const RecommendedMenu = () => {
       mealType: "Breakfast",
       nutrients: { carbs: 45, protein: 12, fats: 14 },
       image:
-        "https://media.istockphoto.com/id/1408374876/photo/oatmeal-porridge-bowl-with-berry-fruits-in-female-hands.jpg?s=612x612&w=0&k=20&c=t-nDA76Z8G7aiTw4O6ET55yn-YXj8iA7hFJCkkJzaPw=", // Replace with actual image URL
+        "https://media.istockphoto.com/id/1408374876/photo/oatmeal-porridge-bowl-with-berry-fruits-in-female-hands.jpg?s=612x612&w=0&k=20&c=t-nDA76Z8G7aiTw4O6ET55yn-YXj8iA7hFJCkkJzaPw=",
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ const RecommendedMenu = () => {
       calories: 450,
       mealType: "Lunch",
       nutrients: { carbs: 40, protein: 30, fats: 18 },
-      image: "https://allweeat.com/wp-content/uploads/2022/08/13-11-scaled.jpg", // Replace with actual image URL
+      image: "https://allweeat.com/wp-content/uploads/2022/08/13-11-scaled.jpg",
     },
   ];
 
@@ -66,7 +66,6 @@ const RecommendedMenu = () => {
                 sx={{ height: 150, objectFit: "cover" }}
               />
               <CardContent>
-                {/* Meal type and calories */}
                 <Box
                   sx={{
                     display: "flex",
@@ -92,7 +91,6 @@ const RecommendedMenu = () => {
                     {item.calories} kcal
                   </Typography>
                 </Box>
-                {/* Nutrients */}
                 <Box
                   sx={{
                     display: "flex",
@@ -112,11 +110,9 @@ const RecommendedMenu = () => {
                     />
                   ))}
                 </Box>
-                {/* Title */}
                 <Typography variant="subtitle1" fontWeight="bold" mb={1}>
                   {item.title}
                 </Typography>
-                {/* Description */}
                 <Typography variant="body2" color="textSecondary">
                   {item.description}
                 </Typography>
